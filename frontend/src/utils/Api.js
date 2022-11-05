@@ -77,9 +77,5 @@ class Api {
 }
 
 export const api = new Api({
-    baseUrl: "https://mesto.nomoreparties.co/v1/cohort-47",
-    headers: {
-        authorization: "778058ff-f85d-4c06-865c-00c5c790cf32",
-        "Content-Type": "application/json",
-    },
+    baseUrl: "https://api.dacorm.nomoredomains.icu",
 })

@@ -4,11 +4,12 @@ const User = require('../models/user');
 const {
   NOT_FOUND_ERROR_CODE,
   DEFAULT_ERROR_CODE,
-  INCORRECT_DATA_ERROR_CODE, JWT_SECRET,
+  INCORRECT_DATA_ERROR_CODE,
 } = require('../utils/constants');
 const BadRequestError = require('../utils/errors/badRequestError');
 const NotFoundError = require('../utils/errors/notFoundError');
 const ConflictError = require('../utils/errors/conflictError');
+const { getJWT } = require('../utils/getJWT');
 
 module.exports.getUsers = async (req, res, next) => {
   try {
@@ -71,7 +72,8 @@ module.exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.checkUser(email, password);
-    const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+    const key = getJWT();
+    const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
     res.send(token);
   } catch (e) {
     next(e);

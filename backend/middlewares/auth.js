@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../utils/constants');
+const { getJWT } = require('../utils/getJWT');
 const { NOT_FOUND_ERROR_CODE } = require('../utils/constants');
 const NotFoundError = require('../utils/errors/notFoundError');
 
@@ -11,7 +11,8 @@ module.exports = (req, res, next) => {
     if (!token) {
       return next(new NotFoundError('Необходима авторизация'));
     }
-    payload = jwt.verify(token, JWT_SECRET);
+    const key = getJWT();
+    payload = jwt.verify(token, key);
   } catch (e) {
     return next(new NotFoundError('Необходима авторизация'));
   }
