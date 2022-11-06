@@ -40,10 +40,10 @@ module.exports.deleteCard = async (req, res, next) => {
   try {
     const card = await Card.findById(req.params.cardId);
     if (!card) {
-      return new NotFoundError('Карточка не найдена');
+      throw new NotFoundError('Карточка не найдена');
     }
-    if (card.owner.toString() !== req.params.cardId) {
-      return new ForbiddenError('Нельзя удалять чужие карточки');
+    if (card.owner.toString() !== req.user._id) {
+      throw new ForbiddenError('Нельзя удалять чужие карточки');
     }
     const cardDelete = await Card.findByIdAndRemove(req.params.cardId);
     res.send({
