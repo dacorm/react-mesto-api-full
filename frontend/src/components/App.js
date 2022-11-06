@@ -103,7 +103,6 @@ function App() {
         const isLiked = card.likes.some(i => (i._id || i) === currentUser._id);
         try {
             const { updatedCard } = await api.changeLikeCardStatus(card, !isLiked);
-            console.log(updatedCard);
             setCards((state) => state.map((c) => c._id === updatedCard._id ? updatedCard : c));
         } catch (error) {
             console.warn(error);
