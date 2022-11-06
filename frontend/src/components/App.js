@@ -55,7 +55,7 @@ function App() {
     const handleLogin = async (password, email) => {
         try {
             const { token } = await login(password, email);
-            const { data } = await auth(token);
+            const data = await auth(token);
             setUserEmail(data.email);
             setIsLoggedIn(true);
             localStorage.setItem('token', token);
@@ -77,7 +77,7 @@ function App() {
         const token = localStorage.getItem('token');
         if (token) {
             try {
-                const { data } = await auth(token);
+                const data = await auth(token);
                 setUserEmail(data.email);
                 setIsLoggedIn(true);
             } catch (e) {

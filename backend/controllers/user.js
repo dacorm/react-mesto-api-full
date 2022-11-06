@@ -74,7 +74,9 @@ module.exports.login = async (req, res, next) => {
     const user = await User.checkUser(email, password);
     const key = getJWT();
     const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
-    res.send(token);
+    res.send({
+      token,
+    });
   } catch (e) {
     next(e);
   }
