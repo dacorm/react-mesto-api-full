@@ -138,6 +138,7 @@ function App() {
     const handleAddPlace = async (obj) => {
         try {
             const newPlace = await api.addNewCard(obj);
+            console.log(newPlace);
             setCards([newPlace, ...cards]);
             closeAllPopups();
         } catch (e) {
