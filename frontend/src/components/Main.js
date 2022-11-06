@@ -23,11 +23,11 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike
                 <ul className="card__items">
                     {
                         cards.map((card) => (<Card
-                            card={card}
                             key={card._id}
+                            card={card}
                             title={card.name}
                             image={card.link}
-                            likesCount={card.likes.length}
+                            likesCount={card?.likes?.length}
                             onCardClick={onCardClick}
                             onCardLike={onCardLike}
                             onCardDelete={onCardDelete}

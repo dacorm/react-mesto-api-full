@@ -6,17 +6,17 @@ const hidden = {
     display: 'none'
 }
 
-const Card = ({ image, myKey, title, likesCount, onCardClick, card, onCardLike, onCardDelete }) => {
+const Card = ({ image, title, likesCount, onCardClick, card, onCardLike, onCardDelete }) => {
     const user = useContext(CurrentUserContext)
 
-    const isOwn = card.owner._id !== user._id;
+    const isOwn = card.owner !== user._id;
 
-    const isLiked = card.likes.some(i => i._id === user._id);
+    const isLiked = card.likes && card.likes.some(i => i === user._id);
 
     const cardLikeButtonClassName = `card__item-like-button ${isLiked ? 'card__item-like-button_active' : ''}`
 
     return (
-        <li className="card__item" key={myKey}>
+        <li className="card__item">
             <img src={trash} alt="Корзина"
                  className="card__item-thrash" style={isOwn ? hidden : null} onClick={() => {
                      onCardDelete(card)
