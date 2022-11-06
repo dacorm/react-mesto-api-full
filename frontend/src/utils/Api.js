@@ -78,4 +78,7 @@ class Api {
 
 export const api = new Api({
     baseUrl: "https://api.dacorm.nomoredomains.icu",
+    headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
 })

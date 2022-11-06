@@ -29,8 +29,8 @@ app.post('/signin', validateLogin, login);
 app.post('/signup', validateRegister, createUser);
 
 app.use(auth);
-app.use('/users', userRoutes);
 app.use('/cards', cardRoutes);
+app.use('/users', userRoutes);
 app.use('*', () => {
   throw new NotFoundError('Запрашиваемый адрес не найден. Проверьте URL и метод запроса');
 });
