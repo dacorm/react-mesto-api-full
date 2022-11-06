@@ -8,7 +8,10 @@ const BadRequestError = require('../utils/errors/badRequestError');
 const NotFoundError = require('../utils/errors/notFoundError');
 const ForbiddenError = require('../utils/errors/forbiddenError');
 
-const USER_REF = [{ path: 'likes', model: 'user' }];
+const USER_REF = [
+  { path: 'likes', model: 'user' },
+  { path: 'owner', model: 'user' },
+];
 
 module.exports.getCards = async (req, res, next) => {
   try {
@@ -69,10 +72,12 @@ const handleCardLike = async (req, res, next, options) => {
     ).populate(USER_REF);
 
     if (!updatedCard) {
-      return new NotFoundError('Карточка не найдена');
+      throw new NotFoundError('Карточка не найдена');
     }
 
-    res.send(updatedCard);
+    res.send({
+      updatedCard
+    });
   } catch (e) {
     if (e.name === 'CastError') {
       next(new BadRequestError('Переданы не валидные данные'));
