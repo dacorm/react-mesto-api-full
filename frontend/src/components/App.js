@@ -92,12 +92,11 @@ function App() {
     }, [])
 
     const handleCardLike = async (card) => {
-        console.log(card);
-        const isLiked = card.likes.some(i => i === currentUser._id);
+        const isLiked = card.likes.some(i => (i._id || i) === currentUser._id);
         try {
             const { updatedCard } = await api.changeLikeCardStatus(card, !isLiked);
             console.log(updatedCard);
-            setCards((state) => state.map((c) => c._id === card._id ? updatedCard : c));
+            setCards((state) => state.map((c) => c._id === updatedCard._id ? updatedCard : c));
         } catch (error) {
             console.warn(error);
         }

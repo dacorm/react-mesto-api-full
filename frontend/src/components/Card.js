@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import trash from "../images/Trash.svg";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
@@ -7,11 +7,11 @@ const hidden = {
 }
 
 const Card = ({ image, title, likesCount, onCardClick, card, onCardLike, onCardDelete }) => {
-    const user = useContext(CurrentUserContext)
+    const user = useContext(CurrentUserContext);
 
-    const isOwn = card.owner !== user._id;
+    const isOwn = (card.owner || card.owner._id) !== user._id;
 
-    const isLiked = card?.likes?.some(i => i === user._id);
+    const isLiked = card.likes.some((i) => (i._id || i) === user._id);
 
     const cardLikeButtonClassName = `card__item-like-button ${isLiked ? 'card__item-like-button_active' : ''}`
 
