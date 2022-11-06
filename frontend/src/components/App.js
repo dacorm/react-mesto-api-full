@@ -97,7 +97,7 @@ function App() {
         try {
             const { updatedCard } = await api.changeLikeCardStatus(card, !isLiked);
             console.log(updatedCard);
-            setCards((state) => state.map((c) => c._id === card._id ? updatedCard._id : c));
+            setCards((state) => state.map((c) => c._id === card._id ? updatedCard : c));
         } catch (error) {
             console.warn(error);
         }

@@ -76,7 +76,7 @@ const handleCardLike = async (req, res, next, options) => {
     }
 
     res.send({
-      id: updatedCard._id,
+      updatedCard
     });
   } catch (e) {
     if (e.name === 'CastError') {
