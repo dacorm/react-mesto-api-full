@@ -65,7 +65,7 @@ const handleCardLike = async (req, res, next, options) => {
   try {
     const action = options.addLike ? '$addToSet' : '$pull';
 
-    const updatedCard = await Card.findOneAndUpdate(
+    const updatedCard = await Card.findByIdAndUpdate(
       req.params.cardId,
       { [action]: { likes: req.user._id } },
       { new: true },
@@ -76,7 +76,7 @@ const handleCardLike = async (req, res, next, options) => {
     }
 
     res.send({
-      updatedCard
+      id: updatedCard._id,
     });
   } catch (e) {
     if (e.name === 'CastError') {
