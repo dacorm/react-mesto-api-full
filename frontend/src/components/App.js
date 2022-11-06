@@ -29,13 +29,18 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const [error, setError] = useState('');
+    const [jwt, setJwt] = useState('');
 
     const fetchCards = async () => {
-        try {
-            const res = await api.getInitialCards();
-            setCards(res);
-        } catch (e) {
-            console.warn(e)
+        if (jwt) {
+            try {
+                const res = await api.getInitialCards({
+                    authorization: `Bearer ${jwt}`,
+                });
+                setCards(res);
+            } catch (e) {
+                console.warn(e)
+            }
         }
     }
 
@@ -48,7 +53,7 @@ function App() {
             console.warn(e);
             setIsOk(false);
             setIsInfoTooltipOpen(true);
-            setError(e.error);
+            setError(e);
         }
     }
 
@@ -57,8 +62,8 @@ function App() {
             const { token } = await login(password, email);
             const data = await auth(token);
             setUserEmail(data.email);
-            setIsLoggedIn(true);
             localStorage.setItem('token', token);
+            setIsLoggedIn(true);
         } catch (e) {
             console.warn(e);
             setIsOk(false);
@@ -76,8 +81,10 @@ function App() {
     const checkToken = async () => {
         const token = localStorage.getItem('token');
         if (token) {
+            setJwt(token);
             try {
                 const data = await auth(token);
+                setCurrentUser(data);
                 setUserEmail(data.email);
                 setIsLoggedIn(true);
             } catch (e) {
@@ -89,7 +96,8 @@ function App() {
 
     useEffect(() => {
         checkToken();
-    }, [])
+        fetchCards();
+    }, [isLoggedIn, jwt])
 
     const handleCardLike = async (card) => {
         const isLiked = card.likes.some(i => (i._id || i) === currentUser._id);
@@ -111,10 +119,6 @@ function App() {
             console.warn(error);
         }
     }
-
-    useEffect(() => {
-        fetchCards();
-    }, [])
 
     const handleUserUpdate = async (obj) => {
         try {
@@ -146,19 +150,6 @@ function App() {
             console.warn(e)
         }
     }
-
-    const fetchData = async () => {
-        try {
-            const profileObject = await api.getUserInfo();
-            setCurrentUser(profileObject);
-        } catch (error) {
-            console.warn(error);
-        }
-    }
-
-    useEffect(() => {
-        fetchData()
-    }, [])
 
     const handleCardClick = (obj) => {
         setIsImageOpen(true);
