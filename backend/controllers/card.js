@@ -28,7 +28,7 @@ module.exports.createCard = async (req, res, next) => {
     const card = await Card.create({ name, link, owner: req.user._id });
 
     res.send({
-      card
+      card,
     });
   } catch (e) {
     if (e.name === 'ValidationError') {
@@ -76,7 +76,7 @@ const handleCardLike = async (req, res, next, options) => {
     }
 
     res.send({
-      updatedCard
+      updatedCard,
     });
   } catch (e) {
     if (e.name === 'CastError') {
@@ -92,5 +92,5 @@ module.exports.likeCard = (req, res, next) => {
 };
 
 module.exports.dislikeCard = (req, res, next) => {
-  handleCardLike(req, res, next,{ addLike: false });
+  handleCardLike(req, res, next, { addLike: false });
 };
